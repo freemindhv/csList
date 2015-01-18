@@ -21,16 +21,16 @@ namespace liste {
             var ele = new ListElement();
             ele.data = null;
             ele.next = null;
-            ListElement previous = null;
+            ListElement prev = null;
             var cur = mHead;
             var size = other.size();
 
             for (var i = 0; i < 10; i++) {
-                if (previous != null) {
-                    previous.next = cur;
+                if (prev != null) {
+                    prev.next = cur;
                 }
                 cur.data = other.at(i);
-                previous = cur;
+                prev = cur;
             }
         }
         public void pushFront(string s) {
@@ -122,9 +122,21 @@ namespace liste {
             return data;
         }
         public string take(int index) {
-            return "";
-            /// letzte 
-            /// remove element at 'index' and return it 
+            if (empty()) {
+                throw new Exception();
+            } else if (index > size()) {
+                throw new Exception();
+            } else {
+                var cur = mHead;
+                var counter = 0;
+                ListElement prev = null;
+                while (counter < index) {
+                    prev = cur;
+                    cur = cur.next;
+                    counter++;
+                }
+                prev.next = cur.next;
+            }
         }
         public bool contains(string s) {
             var cur = mHead;
