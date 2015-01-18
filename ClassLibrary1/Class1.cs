@@ -135,7 +135,9 @@ namespace liste {
                     cur = cur.next;
                     counter++;
                 }
+                var ret = cur.data;
                 prev.next = cur.next;
+                return ret;
             }
         }
         public bool contains(string s) {
