@@ -51,7 +51,6 @@ namespace liste {
         }
         
         public void pushAt(int index, string s) {
-            // vorvorletzte 
             /// insert 's' after 'index' 
         }
         public int size() {
