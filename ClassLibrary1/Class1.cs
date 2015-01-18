@@ -16,7 +16,22 @@ namespace liste {
         
         public List(List other) {
             /// zweitletztes
-            /// create a copy of 'other' 
+            /// create a copy of 'other'
+            /// must be reworked, iterating over the 'other' list 100000000000000000 times to copy it is ugly as fuck
+            var ele = new ListElement();
+            ele.data = null;
+            ele.next = null;
+            ListElement previous = null;
+            var cur = mHead;
+            var size = other.size();
+
+            for (var i = 0; i < 10; i++) {
+                if (previous != null) {
+                    previous.next = cur;
+                }
+                cur.data = other.at(i);
+                previous = cur;
+            }
         }
         public void pushFront(string s) {
             if (empty()) {
@@ -30,7 +45,6 @@ namespace liste {
                 
                 return;
             }
-            /// insert element at the front of list 
         }
         
         public void pushBack(string s) {
@@ -72,8 +86,6 @@ namespace liste {
                     }
                 }
             }
-
-            /// insert 's' after 'index' 
         }
         public int size() {
              int counter = 0;
@@ -108,7 +120,6 @@ namespace liste {
             string data = next.data;
             cur.next = null;
             return data;
-            /// remove last element of the list and return it 
         }
         public string take(int index) {
             return "";
@@ -148,7 +159,6 @@ namespace liste {
                 throw new Exception();
             }
         }
-            /// get last element of the list
         public string at(int index) {
             int counter = 0;
             
