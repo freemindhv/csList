@@ -30,15 +30,15 @@ namespace liste {
             }
         }
         public void pushFront(string s) {
-                var ele = new ListElement();
+            var ele = new ListElement();
 
-                ele.data = s;
-                ele.next = mHead;
+            ele.data = s;
+            ele.next = mHead;
 
-                mHead = ele;
+            mHead = ele;
 
-                return;
-            }
+            return;
+        }
 
         public void pushBack(string s) {
             var ele = new ListElement();
@@ -132,7 +132,7 @@ namespace liste {
             }
             var cur = mHead;
 
-            for (int i = 0; i < index -1 && cur != null; i++)
+            for (int i = 0; i < index - 1 && cur != null; i++)
                 cur = cur.next;
 
             if (cur == null || cur.next == null)
@@ -206,3 +206,4 @@ namespace liste {
             }
         }
     }
+}
