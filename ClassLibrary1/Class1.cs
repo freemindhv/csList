@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
+using liste;
+
 namespace liste {
     public class List {
         private class ListElement {
@@ -13,143 +12,146 @@ namespace liste {
         public List() {
             /// constructor 
         }
-        
-        public List(List other) {
-            /// zweitletztes
-            /// create a copy of 'other'
-            /// must be reworked, iterating over the 'other' list 100000000000000000 times to copy it is ugly as fuck
-            var ele = new ListElement();
-            ele.data = null;
-            ele.next = null;
-            ListElement prev = null;
-            var cur = mHead;
-            var size = other.size();
 
-            for (var i = 0; i < 10; i++) {
-                if (prev != null) {
-                    prev.next = cur;
+        public List(List other) {
+            var tmp = mHead;
+
+            for (var x = other.mHead; x != null; x = x.next) {
+                var ele = new ListElement();
+                ele.data = x.data;
+                if (mHead == null) {
+                    mHead = ele;
+                    tmp = mHead;
                 }
-                cur.data = other.at(i);
-                prev = cur;
+                else {
+                    tmp.next = ele;
+                    tmp = tmp.next;
+                }
             }
         }
         public void pushFront(string s) {
-            if (empty()) {
-                
                 var ele = new ListElement();
-                
+
                 ele.data = s;
-                ele.next = null;
-                
+                ele.next = mHead;
+
                 mHead = ele;
-                
+
                 return;
             }
-        }
-        
+
         public void pushBack(string s) {
             var ele = new ListElement();
-            
+
             ele.data = s;
             ele.next = null;
             if (empty()) {
                 mHead = ele;
-            } else {
+            }
+            else {
                 var cur = mHead;
-                
+
                 while (cur.next != null) {
                     cur = cur.next;
                 }
                 cur.next = ele;
             }
         }
-        
+
         public void pushAt(int index, string s) {
-            var counter = 0;
             var cur = mHead;
             var ele = new ListElement();
             ele.data = s;
             ele.next = null;
 
-            if (empty()) {
-                throw new Exception();
-            } else if (index > size()) {
-                throw new Exception();
-            } else {
-                while (counter <= index) {
-                    if (counter == index) {
-                        ele.next = cur.next;
-                        cur.next = ele;
-                    } else {
-                    cur = cur.next;
-                    counter++;
-                    }
-                }
+            if (index == 0) {
+                ele.next = mHead;
+                mHead = ele;
+                return;
             }
+
+            if (empty())
+                throw new Exception();
+
+            if (index < 0)
+                throw new Exception();
+
+            for (int i = 0; i < index - 1; i++) {
+                cur = cur.next;
+            }
+
+            if (cur == null)
+                throw new Exception("Invalid Index");
+
+            ele.next = cur.next;
+            cur.next = ele;
         }
+
         public int size() {
-             int counter = 0;
-             var cur = mHead;
-             
-             while (cur != null) {
-                 counter++;
-                 cur = cur.next;
+            int counter = 0;
+            var cur = mHead;
+
+            while (cur != null) {
+                counter++;
+                cur = cur.next;
             }
-            
+
             return counter;
         }
-        
+
         public bool empty() {
             return mHead == null;
         }
         public string takeFront() {
-            
+
             var ret = mHead.data;
             mHead = mHead.next;
-            
+
             return ret;
         }
         public string takeBack() {
             var cur = mHead;
-            var next = cur.next;
-            
-            while (next != null) {
+            ListElement prev = null;
+
+            while (cur.next != null) {
+                prev = cur;
                 cur = cur.next;
-                next = cur.next;
             }
-            string data = next.data;
-            cur.next = null;
+            string data = cur.data;
+            prev.next = null;
             return data;
         }
-        public string take(int index) {
+        public string takeAt(int index) {
             if (empty()) {
                 throw new Exception();
-            } else if (index > size()) {
-                throw new Exception();
-            } else {
-                var cur = mHead;
-                var counter = 0;
-                ListElement prev = null;
-                while (counter < index) {
-                    prev = cur;
-                    cur = cur.next;
-                    counter++;
-                }
-                var ret = cur.data;
-                prev.next = cur.next;
-                return ret;
             }
+            if (index == 0) {
+                var t = mHead.data;
+                mHead = mHead.next;
+                return t;
+            }
+            var cur = mHead;
+
+            for (int i = 0; i < index -1 && cur != null; i++)
+                cur = cur.next;
+
+            if (cur == null || cur.next == null)
+                throw new Exception("Invalid Index");
+
+            var ret = cur.next.data;
+            cur.next = cur.next.next;
+            return ret;
         }
         public bool contains(string s) {
             var cur = mHead;
             while (cur != null) {
-                 if (cur.data == s) {
-                     return true;
-                 }
-                 
-                 cur = cur.next;
+                if (cur.data == s) {
+                    return true;
+                }
+
+                cur = cur.next;
             }
-            
+
             return false;
         }
         public void clear() {
@@ -158,8 +160,9 @@ namespace liste {
         public string front() {
             if (!empty()) {
                 return mHead.data;
-            } else {
-                 throw new Exception();   
+            }
+            else {
+                throw new Exception();
             }
         }
         public string back() {
@@ -169,36 +172,37 @@ namespace liste {
                     cur = cur.next;
                 }
                 return cur.data;
-            } else {
+            }
+            else {
                 throw new Exception();
             }
         }
         public string at(int index) {
             int counter = 0;
-            
+
             if (index < 0)
                 throw new Exception();
-                
-            
+
+
             if (index < size()) {
                 var cur = mHead;
-                
+
                 while (counter < index) {
                     cur = cur.next;
                     counter++;
                 }
                 return cur.data;
-            } else {
+            }
+            else {
                 throw new Exception();
             }
         }
         public void printAll() {
             var cur = mHead;
-            
+
             while (cur != null) {
                 Console.WriteLine(cur.data);
                 cur = cur.next;
             }
         }
     }
-}
