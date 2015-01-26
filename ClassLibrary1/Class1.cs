@@ -13,6 +13,14 @@ namespace liste {
             /// constructor 
         }
 
+        public string this[int index] {
+            get {
+                return at(index);
+            }
+            set {
+                pushAt(index, value);
+            }
+    }
         public List(List other) {
             var tmp = mHead;
 
