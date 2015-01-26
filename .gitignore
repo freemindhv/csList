@@ -181,3 +181,9 @@ UpgradeLog*.htm
 
 # Microsoft Fakes
 FakesAssemblies/
+/MyList/Properties/AssemblyInfo.cs
+/MyList/MyList.csproj
+/Tests/Properties/AssemblyInfo.cs
+/Tests/App.config
+/Tests/Tests.csproj
+/myList.sln
